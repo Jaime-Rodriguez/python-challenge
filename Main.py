@@ -11,7 +11,6 @@ with open(file_name, newline='') as csvfile:
     PLCurr = 0
     PLPrev = 0
     Delta = 0
-    PLTot = []
     Count = 0
     GreatInc = 0
     GreatIncMonth = ""
@@ -49,16 +48,8 @@ print("Financial Analysis\n ------------------------")
 print(f"Total Months: {Months}\nTotal: ${NetAmt}\nAverage Change: ${AvgDelta:.2f}\nGreatest Increase"
       f"in Profits: {GreatIncMonth} (${GreatInc})\nGreatest Decrease in Profits: {GreatDecMonth} (${GreatDec})")
 
-cat > "budget_data.txt"
 
-output_file = "Resources_Budget_output.csv"
-with open(output_file, "w", newline='') as csvfile:
-    csvwriter = csv.writer(csvfile)
-    csvwriter.writerow(["Financial Analysis"])
-    csvwriter.writerow(["----------------------------"])
-    csvwriter.writerow(["Total Months:", Months])
-    csvwriter.writerow(["Total:", '${:,.2f}'.format(NetAmt)])
-    csvwriter.writerow(["Average Change:", AvgDelta])
-    csvwriter.writerow(["Greatest Increase in Profits:", GreatIncMonth,GreatInc])
-    csvwriter.writerow(["Greatest Decrease in Profits:", GreatDecMonth,GreatDec])
-    csvwriter.writerow(["Count:", Count])
+# Write a file that will export the print statements from above to a text file named "budget_data.txt"
+f = open("budget_data.txt","w+")
+f.write(f"Financial Analysis\n ------------------------\nTotal Months: {Months}\nTotal: ${NetAmt}\nAverage Change: ${AvgDelta:.2f}\nGreatest Increase in Profits: {GreatIncMonth} (${GreatInc})\nGreatest Decrease in Profits: {GreatDecMonth} (${GreatDec})")
+
