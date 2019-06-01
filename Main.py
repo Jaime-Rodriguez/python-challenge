@@ -49,7 +49,6 @@ print("Financial Analysis\n ------------------------")
 print(f"Total Months: {Months}\nTotal: ${NetAmt}\nAverage Change: ${AvgDelta:.2f}\nGreatest Increase"
       f"in Profits: {GreatIncMonth} (${GreatInc})\nGreatest Decrease in Profits: {GreatDecMonth} (${GreatDec})")
 
-cat > "budget_data.txt"
 
 output_file = "Resources_Budget_output.csv"
 with open(output_file, "w", newline='') as csvfile:
