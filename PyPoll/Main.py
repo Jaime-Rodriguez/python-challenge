@@ -1,23 +1,29 @@
 import csv
 
-#
 file_name = "03-Python_Homework_PyPoll_Resources_election_data.csv"
-total_votes = 0
 
 with open(file_name, newline='') as f:
     reader = csv.reader(f)
     header_row = next(reader)
 
+    # Set up a blank list that will be used to store the unique candidates
     candidates = []
+
+    # Initializing a total_votes counter to track the total votes
+    total_votes = 0
     for row in reader:
         total_votes += 1
+
+        # As we go through the for loop, append unique candidates to the candidates list
         if row[2] not in candidates:
             candidates.append(row[2])
 
-    # Add the candidates to a dictionary so that we can set calculate the
-    CandidateVotes = { i : int(0) for i in candidates}
+    # Create a dictionary to store the unique candidates as well as a place to store their total votes
+    # Initiate the runningTotal variable that will be used to track each candidates total votes and assigning
+    # those totals to the dictionary. Once we move on to the next candidate, we'll reset to 0
 
     runningTotal = 0
+    CandidateVotes = { i : int(0) for i in candidates}
     for key in CandidateVotes:
         with open(file_name, newline='') as f:
             reader = csv.reader(f)
@@ -27,7 +33,8 @@ with open(file_name, newline='') as f:
             CandidateVotes[key] = runningTotal
             runningTotal = 0
 
-    print(CandidateVotes)
+    # Adding dictionary to track each candidate and the two values corresponding to them, total
+    # votes and percent of total
     FinalTotals = {}
     for key in CandidateVotes:
         # FinalTotals.append(key)
@@ -41,15 +48,15 @@ with open(file_name, newline='') as f:
         if CandidateVotes[key] > WinningCounter:
             Winner = key
             WinningCounter = CandidateVotes[key]
-        # CandidateVotes[key].append(CandidateVotes[key] / total_votes)
 
-
+# Used to print to terminal
 print("Election Results \n-------------------------")
 print(f"Total Votes: {total_votes}\n-------------------------")
 for key in CandidateVotes:
     print(f"{key}: {FinalTotals[key][1]:.3f}% ({FinalTotals[key][0]})")
 print(f"-------------------------\nWinner: {Winner}\n-------------------------")
 
+# Writing to text file
 f = open("Poll_Results.txt","w+")
 f.write(f"Election Results \n-------------------------\nTotal Votes: {total_votes}\n-------------------------\n")
 for key in CandidateVotes:
