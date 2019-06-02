@@ -1,60 +1,59 @@
 import csv
 
+#
 file_name = "03-Python_Homework_PyPoll_Resources_election_data.csv"
 total_votes = 0
-candidates = []
-with open(file_name, newline='') as csvfile:
-    csvreader = csv.reader(csvfile)
-    for row in csvreader:
-        total_votes += 1
-for row in csvreader:
-    if row[2] not in candidates:
-        candidates.append(row[2])
 
-#     Months = 0
-#     NetAmt = 0
-#     PLCurr = 0
-#     PLPrev = 0
-#     Delta = 0
-#     Count = 0
-#     GreatInc = 0
-#     GreatIncMonth = ""
-#     GreatDec = 0
-#     GreatDecMonth = ""
-#
-#     # This will skip the first row of the csv file
-#     next(csvreader)
-#     for row in csvreader:
-#         if Count == 0:
-#             PLCurr = int(row[1])
-#             Months += 1
-#             NetAmt = NetAmt + PLCurr
-#             PLPrev = PLCurr
-#             Count = 1
-#         else:
-#             PLCurr = int(row[1])
-#             Delta = Delta + (PLCurr - PLPrev)
-#             # Compare the delta with what is stored in our greatest increase/decrease variables
-#             if (GreatInc < PLCurr - PLPrev):
-#                 GreatInc = PLCurr - PLPrev
-#                 GreatIncMonth = row[0]
-#             if (GreatDec > PLCurr - PLPrev):
-#                 GreatDec = PLCurr - PLPrev
-#                 GreatDecMonth = row[0]
-#             Months += 1
-#             NetAmt = NetAmt + PLCurr
-#             PLPrev = PLCurr
-#             Count += 1
-#
-#     AvgDelta = Delta / (Count - 1)
-#
-#
-# print("Financial Analysis\n ------------------------")
-# print(f"Total Months: {Months}\nTotal: ${NetAmt}\nAverage Change: ${AvgDelta:.2f}\nGreatest Increase"
-#       f"in Profits: {GreatIncMonth} (${GreatInc})\nGreatest Decrease in Profits: {GreatDecMonth} (${GreatDec})")
-#
-#
-# # Write a file that will export the print statements from above to a text file named "budget_data.txt"
-# f = open("budget_data.txt","w+")
-# f.write(f"Financial Analysis\n ------------------------\nTotal Months: {Months}\nTotal: ${NetAmt}\nAverage Change: ${AvgDelta:.2f}\nGreatest Increase in Profits: {GreatIncMonth} (${GreatInc})\nGreatest Decrease in Profits: {GreatDecMonth} (${GreatDec})")
-#
+with open(file_name, newline='') as f:
+    reader = csv.reader(f)
+    header_row = next(reader)
+
+    candidates = []
+    for row in reader:
+        total_votes += 1
+        if row[2] not in candidates:
+            candidates.append(row[2])
+
+    # Add the candidates to a dictionary so that we can set calculate the
+    CandidateVotes = { i : int(0) for i in candidates}
+
+    runningTotal = 0
+    for key in CandidateVotes:
+        with open(file_name, newline='') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if(key == row[2]):
+                    runningTotal += 1
+            CandidateVotes[key] = runningTotal
+            runningTotal = 0
+
+    print(CandidateVotes)
+    FinalTotals = {}
+    for key in CandidateVotes:
+        # FinalTotals.append(key)
+        # FinalTotals.append(CandidateVotes[key])
+        # FinalTotals.append(CandidateVotes[key]/total_votes)
+        FinalTotals[key] = (CandidateVotes[key],(CandidateVotes[key]/total_votes)*100)
+    # Use this counter to determine who had the most votes
+    WinningCounter = 0
+    Winner = ""
+    for key in CandidateVotes:
+        if CandidateVotes[key] > WinningCounter:
+            Winner = key
+            WinningCounter = CandidateVotes[key]
+        # CandidateVotes[key].append(CandidateVotes[key] / total_votes)
+
+
+print("Election Results \n-------------------------")
+print(f"Total Votes: {total_votes}\n-------------------------")
+for key in CandidateVotes:
+    print(f"{key}: {FinalTotals[key][1]:.3f}% ({FinalTotals[key][0]})")
+print(f"-------------------------\nWinner: {Winner}\n-------------------------")
+
+f = open("Poll_Results.txt","w+")
+f.write(f"Election Results \n-------------------------\nTotal Votes: {total_votes}\n-------------------------\n")
+for key in CandidateVotes:
+    f.write(f"{key}: {FinalTotals[key][1]:.3f}% ({FinalTotals[key][0]})\n")
+f.write(f"-------------------------\nWinner: {Winner}\n-------------------------")
+# stdoutOrigin=sys.stdout
+# sys.stdout = open("Poll_Results.txt","w+")
