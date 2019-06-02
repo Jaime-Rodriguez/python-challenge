@@ -1,12 +1,15 @@
 import csv
 
 file_name = "03-Python_Homework_PyPoll_Resources_election_data.csv"
-
+total_votes = 0
+candidates = []
 with open(file_name, newline='') as csvfile:
     csvreader = csv.reader(csvfile)
-Candidates, Votes = set(), set()
+    for row in csvreader:
+        total_votes += 1
 for row in csvreader:
-    Candidates.add(row[2])
+    if row[2] not in candidates:
+        candidates.append(row[2])
 
 #     Months = 0
 #     NetAmt = 0
