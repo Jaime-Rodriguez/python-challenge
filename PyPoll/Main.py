@@ -37,9 +37,6 @@ with open(file_name, newline='') as f:
     # votes and percent of total
     FinalTotals = {}
     for key in CandidateVotes:
-        # FinalTotals.append(key)
-        # FinalTotals.append(CandidateVotes[key])
-        # FinalTotals.append(CandidateVotes[key]/total_votes)
         FinalTotals[key] = (CandidateVotes[key],(CandidateVotes[key]/total_votes)*100)
     # Use this counter to determine who had the most votes
     WinningCounter = 0
@@ -62,5 +59,3 @@ f.write(f"Election Results \n-------------------------\nTotal Votes: {total_vote
 for key in CandidateVotes:
     f.write(f"{key}: {FinalTotals[key][1]:.3f}% ({FinalTotals[key][0]})\n")
 f.write(f"-------------------------\nWinner: {Winner}\n-------------------------")
-# stdoutOrigin=sys.stdout
-# sys.stdout = open("Poll_Results.txt","w+")
